@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Profile & Quiz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .profile {
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #ff7675;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        p.bio {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .quiz-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .reward-box {
+            background: #fff;
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            word-break: break-all;
+            margin-top: 15px;
+            border: 2px dashed #6c5ce7;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        .error { color: #ff7675; }
+        .success { color: #55efc4; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Thẻ Profile -->
+    <div class="profile">
+        <div class="avatar">😎</div>
+        <h1>My Profile Quiz</h1>
+        <p class="bio">Vượt qua 3 câu hỏi để nhận phần thưởng nhé!</p>
+    </div>
+
+    <!-- Câu hỏi 1 -->
+    <div id="q1" class="quiz-card">
+        <div class="question">Câu hỏi 1: Một cộng một bằng mấy?</div>
+        <div class="options">
+            <button class="btn" onclick="checkQ1(true)">Bằng 3</button>
+            <button class="btn" onclick="checkQ1(false)">Bằng 2</button>
+        </div>
+        <div id="feedback1" class="feedback"></div>
+    </div>
+
+    <!-- Câu hỏi 2 -->
+    <div id="q2" class="quiz-card hidden">
+        <div class="question">Câu hỏi 2: 3 cộng 3 bằng mấy?</div>
+        <div class="options">
+            <button class="btn" onclick="checkQ2(true)">33</button>
+            <button class="btn" onclick="checkQ2(false)">6</button>
+        </div>
+        <div id="feedback2" class="feedback"></div>
+    </div>
+
+    <!-- Câu hỏi 3 -->
+    <div id="q3" class="quiz-card hidden">
+        <div class="question">Câu hỏi 3: Bạn chọn quà nào bên dưới?</div>
+        <div class="options">
+            <button class="btn" onclick="chooseGift(1)">Thẻ Garena 20k</button>
+            <button class="btn" onclick="chooseGift(2)">Thẻ Garena 200k</button>
+        </div>
+        <div id="result" class="reward-box hidden"></div>
+    </div>
+</div>
+
+<script>
+    // Xử lý Câu 1
+    function checkQ1(isCorrect) {
+        const feedback = document.getElementById('feedback1');
+        if (isCorrect) {
+            feedback.className = "feedback success";
+            feedback.innerText = "Chính xác! Chuẩn bị sang câu 2...";
+            setTimeout(() => {
+                document.getElementById('q1').classList.add('hidden');
+                document.getElementById('q2').classList.remove('hidden');
+            }, 1000);
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerText = "Sai rồi! Thử lại đi bạn ơi.";
+        }
+    }
+
+    // Xử lý Câu 2
+    function checkQ2(isCorrect) {
+        const feedback = document.getElementById('feedback2');
+        if (isCorrect) {
+            feedback.className = "feedback success";
+            feedback.innerText = "Chuẩn luôn! Đến câu cuối cùng...";
+            setTimeout(() => {
+                document.getElementById('q2').classList.add('hidden');
+                document.getElementById('q3').classList.remove('hidden');
+            }, 1000);
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerText = "Sai rồi! Suy nghĩ kỹ lại nào.";
+        }
+    }
+
+    // Xử lý Câu 3 (Chọn thẻ)
+    function chooseGift(option) {
+        const resultBox = document.getElementById('result');
+        resultBox.classList.remove('hidden');
+        
+        if (option === 1) {
+            resultBox.style.color = "#2ed573";
+            resultBox.innerText = "Mã thẻ Garena 20k của bạn: 0839-3187-2016-6036";
+        } else if (option === 2) {
+            resultBox.style.color = "#ff4757";
+            resultBox.innerText = "ôi không anh không coá tìn may mắn lần sau nhe hẹ hẹ";
+        }
+    }
+</script>
+
+</body>
+</html>
